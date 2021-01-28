@@ -1,0 +1,103 @@
+#---------------------------------ORDERER0------------------------------
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: orderer0-certs-pv
+spec:
+  storageClassName: manual 
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data/orderer0"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: orderer0-certs-pvc
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+#-----------------------------------PEER0-------------------------------
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: peer0-certs-pv
+spec:
+  storageClassName: manual 
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data/peer0"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: peer0-certs-pvc
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+#-----------------------------------PEER1-------------------------------
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: peer1-certs-pv
+spec:
+  storageClassName: manual 
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data/peer1"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: peer1-certs-pvc
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+#----------------------------------ARTIFACTS----------------------------
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: artifacts-pv
+spec:
+  storageClassName: manual 
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data/artifacts"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: artifacts-pvc
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

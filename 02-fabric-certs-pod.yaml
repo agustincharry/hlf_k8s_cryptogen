@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fabric-tools
+  labels:
+    run: fabric-tools
+spec:
+  volumes:
+  - name: cryptoconfig
+    configMap:
+      name: fabric-config
+      items:
+      - key: "crypto-config.yaml"
+        path: "crypto-config.yaml"
+  - name: configtx
+    configMap:
+      name: fabric-config
+      items:
+      - key: "configtx.yaml"
+        path: "configtx.yaml"
+  - name: scripts
+    configMap:
+      name: scripts
+      items:
+      - key: "peer0.sh"
+        path: "peer0.sh"
+  
+  - name: orderer0-certs-pvc
+    persistentVolumeClaim:
+      claimName: orderer0-certs-pvc
+  - name: peer0-certs-pvc
+    persistentVolumeClaim:
+      claimName: peer0-certs-pvc
+  - name: peer1-certs-pvc
+    persistentVolumeClaim:
+      claimName: peer1-certs-pvc
+  - name: artifacts-pvc
+    persistentVolumeClaim:
+      claimName: artifacts-pvc
+
+  containers:
+  - name: pod
+    image: hyperledger/fabric-tools:2.3
+    command: ['sh', '-c']
+    args:
+    - rm -r -f /orderer0-certs/* /peer0-certs/* /peer1-certs/* /artifacts/* ;
+      mkdir /data &&
+      cp /configtx/configtx.yaml /data &&
+      cryptogen generate --config=/cryptoconfig/crypto-config.yaml --output=/data/crypto-config &&
+      cp -r /data/crypto-config/ordererOrganizations/consortium/orderers/orderer0/. /orderer0-certs &&
+      cp -r /data/crypto-config/peerOrganizations/Bancolombia/peers/peer0/. /peer0-certs &&
+      cp -r /data/crypto-config/peerOrganizations/Bancolombia/peers/peer1/. /peer1-certs &&
+      cd /data &&
+      configtxgen -profile TwoOrgsOrdererGenesis -channelID sys-channel -outputBlock genesis.block -configPath=/data &&
+      configtxgen -profile TwoOrgsChannel -channelID mychannel -outputCreateChannelTx channel.tx -configPath=/data &&
+      cp /data/genesis.block /artifacts/genesis.block &&
+      cp /data/channel.tx /artifacts/channel.tx &&
+      sleep infinity
+    env:
+    - name: TZ
+      value: "America/Bogota"
+
+    volumeMounts:
+    - name: cryptoconfig
+      mountPath: "/cryptoconfig"
+    - name: configtx
+      mountPath: "/configtx"
+
+    - name: orderer0-certs-pvc
+      mountPath: "/orderer0-certs"
+    - name: peer0-certs-pvc
+      mountPath: "/peer0-certs"
+    - name: peer1-certs-pvc
+      mountPath: "/peer1-certs"
+    - name: artifacts-pvc
+      mountPath: "/artifacts"
+    - name: scripts
+      mountPath: "/scripts"

@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: scripts
+data:
+  peer0.sh: |-
+    # GENERAL
+    export CORE_PEER_ADDRESS=peer0:7051
+    export ORDERER_ADDRESS=orderer0:7050
+    export CORE_PEER_ID=cli-Bancolombia
+    export CORE_PEER_LOCALMSPID=Bancolombia
+
+    # CORE TLS
+    export TLS_PATH=/data/crypto-config/peerOrganizations/Bancolombia/peers/peer0/tls
+    export CORE_PEER_TLS_ENABLED=true
+    export CORE_PEER_TLS_ROOTCERT_FILE=$TLS_PATH/ca.crt
+    export CORE_PEER_TLS_CERT_FILE=$TLS_PATH/server.crt
+    export CORE_PEER_TLS_KEY_FILE=$TLS_PATH/server.key
+    
+    # CLIENT TLS
+    export CORE_PEER_TLS_CLIENTAUTHREQUIRED=true
+    export CORE_PEER_TLS_CLIENTCERT_FILE=/data/crypto-config/peerOrganizations/Bancolombia/users/Admin@Bancolombia/tls/client.crt
+    export CORE_PEER_TLS_CLIENTKEY_FILE=/data/crypto-config/peerOrganizations/Bancolombia/users/Admin@Bancolombia/tls/client.key
+
+    # OTHER
+    export GOPATH=/opt/gopath
+    export CORE_PEER_MSPCONFIGPATH=/data/crypto-config/peerOrganizations/Bancolombia/users/Admin@Bancolombia/msp
+    export ORDERER_CA=/data/crypto-config/ordererOrganizations/consortium/orderers/orderer0/msp/tlscacerts/tlsca.consortium-cert.pem
