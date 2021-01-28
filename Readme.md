@@ -38,13 +38,13 @@ cd /artifacts/
 
 # Creating the channel
 export CHANNEL_ID=mychannel
-export CC_VERSION=1.0
-export CC_SEQUENCE=1
 peer channel create -o $ORDERER_ADDRESS -c $CHANNEL_ID -f ./channel.tx --tls --cafile $ORDERER_CA --certfile $CORE_PEER_TLS_CLIENTCERT_FILE --clientauth --keyfile $CORE_PEER_TLS_CLIENTKEY_FILE
 peer channel join -b mychannel.block
 peer channel list
 
 # Installing Chaincode
+export CC_VERSION=1.0
+export CC_SEQUENCE=1
 peer lifecycle chaincode package basic_$CC_VERSION.tar.gz --path /chaincode-go --lang golang --label basic_$CC_VERSION
 peer lifecycle chaincode install basic_$CC_VERSION.tar.gz
 peer lifecycle chaincode queryinstalled
