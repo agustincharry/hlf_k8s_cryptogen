@@ -13,7 +13,7 @@ kubectl apply -f .
 kubectl get pods
 ```
 
-## Install chaincode dependencies
+## Install chaincode dependencies. Requires a bash shell!
 ```bash
 cd chaincode-go
 GO111MODULE=on go mod vendor
@@ -59,4 +59,9 @@ peer lifecycle chaincode querycommitted --channelID $CHANNEL_ID --name basic --c
 # Invoking Chaincode
 peer chaincode invoke -o $ORDERER_ADDRESS --tls --cafile $ORDERER_CA -C $CHANNEL_ID -n basic --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE -c '{"function":"InitLedger","Args":[]}' --certfile $CORE_PEER_TLS_CLIENTCERT_FILE --clientauth --keyfile $CORE_PEER_TLS_CLIENTKEY_FILE
 peer chaincode query -C $CHANNEL_ID -n basic -c '{"Args":["GetAllAssets"]}'
+```
+
+## Delete all
+```bash
+kubectl delete -f .
 ```
