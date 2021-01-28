@@ -48,7 +48,7 @@ peer lifecycle chaincode install basic.tar.gz
 peer lifecycle chaincode queryinstalled
 
 # Approving Chaincode ->> CHANGE CC_PACKAGE_ID value!!
-export CC_PACKAGE_ID=basic_1.0:6f3562abd7c619e2d242821e5415372eaec2d7a1812a0bd60af589e21a3d7d72
+export CC_PACKAGE_ID=basic_1.0:3f11e6bf3bd16a30a6b434e227c679df6593537c1a48cbf3f61b0b33ad83a4b5
 peer lifecycle chaincode approveformyorg -o $ORDERER_ADDRESS --channelID $CHANNEL_ID --name basic --version 1.0 --package-id $CC_PACKAGE_ID --sequence 1 --tls --cafile $ORDERER_CA --certfile $CORE_PEER_TLS_CLIENTCERT_FILE --clientauth --keyfile $CORE_PEER_TLS_CLIENTKEY_FILE
 peer lifecycle chaincode checkcommitreadiness --channelID $CHANNEL_ID --name basic --version 1.0 --sequence 1 --tls --cafile $ORDERER_CA --output json
 

@@ -48,14 +48,13 @@ spec:
       cp /configtx/configtx.yaml /data &&
       cryptogen generate --config=/cryptoconfig/crypto-config.yaml --output=/data/crypto-config &&
       cp -r /data/crypto-config/ordererOrganizations/consortium/orderers/orderer0/. /orderer0-certs &&
-      cp -r /data/crypto-config/peerOrganizations/Bancolombia/peers/peer0/. /peer0-certs &&
-      cp -r /data/crypto-config/peerOrganizations/Bancolombia/peers/peer1/. /peer1-certs &&
+      cp -r /data/crypto-config/peerOrganizations/ExampleOrg/peers/peer0/. /peer0-certs &&
+      cp -r /data/crypto-config/peerOrganizations/ExampleOrg/peers/peer1/. /peer1-certs &&
       cd /data &&
       configtxgen -profile TwoOrgsOrdererGenesis -channelID sys-channel -outputBlock genesis.block -configPath=/data &&
       configtxgen -profile TwoOrgsChannel -channelID mychannel -outputCreateChannelTx channel.tx -configPath=/data &&
       cp /data/genesis.block /artifacts/genesis.block &&
       cp /data/channel.tx /artifacts/channel.tx &&
-      . /scripts/configClient.sh &&
       sleep infinity
     env:
     - name: TZ

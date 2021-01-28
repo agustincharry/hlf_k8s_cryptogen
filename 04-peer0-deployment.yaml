@@ -96,7 +96,7 @@ spec:
         - name: CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS
           value: "localhost:5984"
         - name: CORE_PEER_TLS_CLIENTROOTCAS_FILES
-          value: "msp/tlscacerts/tlsca.Bancolombia-cert.pem"
+          value: "msp/tlscacerts/tlsca.ExampleOrg-cert.pem"
 
         volumeMounts:
         - name: peer0-certs-pvc
