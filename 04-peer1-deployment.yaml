@@ -11,12 +11,12 @@ spec:
     protocol: TCP
     port: 7051
     targetPort: 7051
-    nodePort: 30051
+    nodePort: 30300
   - name: operations
     protocol: TCP
     port: 9443
     targetPort: 9443
-    nodePort: 30443
+    nodePort: 30301
 
 ---
 
