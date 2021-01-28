@@ -2,8 +2,14 @@
 
 ## Deploy nodes
 ```bash
+git clone https://github.com/agustincharry/hlf_k8s_cryptogen.git
 cd hlf_k8s_cryptogen
 kubectl apply -f .
+```
+
+## Validate the status of pods. -> Desired state: Running
+```bash
+kubectl get pods
 ```
 
 ## Install chaincode dependencies
@@ -18,7 +24,7 @@ cd ..
 kubectl cp chaincode-go fabric-tools:/
 ```
 
-## Getting a shell of fabric-tools
+## Get a shell of fabric-tools
 ```bash
 kubectl exec -it fabric-tools -- /bin/sh
 ```
@@ -26,7 +32,7 @@ kubectl exec -it fabric-tools -- /bin/sh
 ## On the fabric-tools shell
 ```bash
 # Setting env variables
-. /scripts/peer0.sh
+. /scripts/configClient.sh peer0
 cd /artifacts/
 
 # Creating the channel
@@ -40,7 +46,7 @@ peer lifecycle chaincode package basic.tar.gz --path /chaincode-go --lang golang
 peer lifecycle chaincode install basic.tar.gz
 peer lifecycle chaincode queryinstalled
 
-# Approving Chaincode - CHANGE CC_PACKAGE_ID!!
+# Approving Chaincode ->> CHANGE CC_PACKAGE_ID value!!
 export CC_PACKAGE_ID=basic_1.0:6f3562abd7c619e2d242821e5415372eaec2d7a1812a0bd60af589e21a3d7d72
 peer lifecycle chaincode approveformyorg -o $ORDERER_ADDRESS --channelID $CHANNEL_ID --name basic --version 1.0 --package-id $CC_PACKAGE_ID --sequence 1 --tls --cafile $ORDERER_CA --certfile $CORE_PEER_TLS_CLIENTCERT_FILE --clientauth --keyfile $CORE_PEER_TLS_CLIENTKEY_FILE
 peer lifecycle chaincode checkcommitreadiness --channelID $CHANNEL_ID --name basic --version 1.0 --sequence 1 --tls --cafile $ORDERER_CA --output json

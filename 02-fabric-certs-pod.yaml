@@ -22,8 +22,8 @@ spec:
     configMap:
       name: scripts
       items:
-      - key: "peer0.sh"
-        path: "peer0.sh"
+      - key: "configClient.sh"
+        path: "configClient.sh"
   
   - name: orderer0-certs-pvc
     persistentVolumeClaim:
@@ -55,6 +55,7 @@ spec:
       configtxgen -profile TwoOrgsChannel -channelID mychannel -outputCreateChannelTx channel.tx -configPath=/data &&
       cp /data/genesis.block /artifacts/genesis.block &&
       cp /data/channel.tx /artifacts/channel.tx &&
+      . /scripts/configClient.sh &&
       sleep infinity
     env:
     - name: TZ
