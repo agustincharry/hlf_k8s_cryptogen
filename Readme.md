@@ -1,4 +1,5 @@
-# Hyperledger Fabric Kubernetes
+# Hyperledger Fabric Kubernetes Development Environment
+This project provides a Hyperledger Fabric environment to test and develop without thinking about certificates.
 
 ## Deploy nodes
 ```bash
