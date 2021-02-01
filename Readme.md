@@ -13,10 +13,10 @@ kubectl apply -f .
 kubectl get pods
 ```
 
-## Install chaincode dependencies. Requires a bash shell!
+## Install chaincode dependencies.
 ```bash
 cd chaincode-go
-GO111MODULE=on go mod vendor
+go mod vendor
 cd ..
 ```
 
