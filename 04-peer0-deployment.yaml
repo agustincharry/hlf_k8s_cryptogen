@@ -38,9 +38,9 @@ spec:
     spec:
 
       volumes:
-      - name: peer0-certs-pvc
+      - name: hlf-artifacts
         persistentVolumeClaim:
-          claimName: peer0-certs-pvc
+          claimName: hlf-artifacts-pvc
       - name: core-yaml
         configMap:
           name: core-yaml
@@ -99,12 +99,9 @@ spec:
           value: "msp/tlscacerts/tlsca.ExampleOrg-cert.pem"
 
         volumeMounts:
-        - name: peer0-certs-pvc
-          mountPath: "/etc/hyperledger/fabric/msp"
-          subPath: "msp"
-        - name: peer0-certs-pvc
-          mountPath: "/etc/hyperledger/fabric/tls"
-          subPath: "tls"
+        - name: hlf-artifacts
+          mountPath: "/etc/hyperledger/fabric"
+          subPath: "certs/peerOrganizations/ExampleOrg/peers/peer0"
         - name: core-yaml
           mountPath: "/etc/hyperledger/fabric/core.yaml"
           subPath: "core.yaml"

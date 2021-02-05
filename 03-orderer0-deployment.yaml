@@ -38,12 +38,9 @@ spec:
     spec:
 
       volumes:
-      - name: orderer0-certs-pvc
+      - name: hlf-artifacts
         persistentVolumeClaim:
-          claimName: orderer0-certs-pvc
-      - name: artifacts-pvc
-        persistentVolumeClaim:
-          claimName: artifacts-pvc
+          claimName: hlf-artifacts-pvc
       - name: orderer-yaml
         configMap:
           name: orderer-yaml
@@ -75,13 +72,10 @@ spec:
           value: OrdererMSP
 
         volumeMounts:
-        - name: orderer0-certs-pvc
-          mountPath: "/etc/hyperledger/fabric/msp"
-          subPath: "msp"
-        - name: orderer0-certs-pvc
-          mountPath: "/etc/hyperledger/fabric/tls"
-          subPath: "tls"
-        - name: artifacts-pvc
+        - name: hlf-artifacts
+          mountPath: "/etc/hyperledger/fabric"
+          subPath: "certs/ordererOrganizations/consortium/orderers/orderer0"
+        - name: hlf-artifacts
           mountPath: "/etc/hyperledger/fabric/genesis.block"
           subPath: "genesis.block"
         - name: orderer-yaml

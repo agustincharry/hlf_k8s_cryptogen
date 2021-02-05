@@ -6,7 +6,7 @@ metadata:
     run: fabric-tools
 spec:
   volumes:
-  - name: cryptoconfig
+  - name: crypto-config
     configMap:
       name: fabric-config
       items:
@@ -25,54 +25,35 @@ spec:
       - key: "configClient.sh"
         path: "configClient.sh"
   
-  - name: orderer0-certs-pvc
+  - name: hlf-artifacts
     persistentVolumeClaim:
-      claimName: orderer0-certs-pvc
-  - name: peer0-certs-pvc
-    persistentVolumeClaim:
-      claimName: peer0-certs-pvc
-  - name: peer1-certs-pvc
-    persistentVolumeClaim:
-      claimName: peer1-certs-pvc
-  - name: artifacts-pvc
-    persistentVolumeClaim:
-      claimName: artifacts-pvc
+      claimName: hlf-artifacts-pvc
 
   containers:
   - name: pod
     image: hyperledger/fabric-tools:2.3
     command: ['sh', '-c']
     args:
-    - rm -r -f /orderer0-certs/* /peer0-certs/* /peer1-certs/* /artifacts/* ;
+    - rm -r -f /hlf-artifacts/*;
       mkdir /data &&
       cp /configtx/configtx.yaml /data &&
-      cryptogen generate --config=/cryptoconfig/crypto-config.yaml --output=/data/crypto-config &&
-      cp -r /data/crypto-config/ordererOrganizations/consortium/orderers/orderer0/. /orderer0-certs &&
-      cp -r /data/crypto-config/peerOrganizations/ExampleOrg/peers/peer0/. /peer0-certs &&
-      cp -r /data/crypto-config/peerOrganizations/ExampleOrg/peers/peer1/. /peer1-certs &&
+      cryptogen generate --config=/crypto-config/crypto-config.yaml --output=/data/crypto-config &&
+      cp -r /data/crypto-config/ /hlf-artifacts/certs/ &&      
       cd /data &&
-      configtxgen -profile TwoOrgsOrdererGenesis -channelID sys-channel -outputBlock genesis.block -configPath=/data &&
-      configtxgen -profile TwoOrgsChannel -channelID mychannel -outputCreateChannelTx channel.tx -configPath=/data &&
-      cp /data/genesis.block /artifacts/genesis.block &&
-      cp /data/channel.tx /artifacts/channel.tx &&
+      configtxgen -profile TwoOrgsOrdererGenesis -channelID sys-channel -outputBlock /hlf-artifacts/genesis.block -configPath=/data &&
+      configtxgen -profile TwoOrgsChannel -channelID mychannel -outputCreateChannelTx /hlf-artifacts/channel.tx -configPath=/data &&
       sleep infinity
     env:
     - name: TZ
       value: "America/Bogota"
 
     volumeMounts:
-    - name: cryptoconfig
-      mountPath: "/cryptoconfig"
+    - name: crypto-config
+      mountPath: "/crypto-config"
     - name: configtx
       mountPath: "/configtx"
-
-    - name: orderer0-certs-pvc
-      mountPath: "/orderer0-certs"
-    - name: peer0-certs-pvc
-      mountPath: "/peer0-certs"
-    - name: peer1-certs-pvc
-      mountPath: "/peer1-certs"
-    - name: artifacts-pvc
-      mountPath: "/artifacts"
     - name: scripts
       mountPath: "/scripts"
+
+    - name: hlf-artifacts
+      mountPath: "/hlf-artifacts"

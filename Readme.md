@@ -34,7 +34,7 @@ kubectl exec -it fabric-tools -- /bin/sh
 ```bash
 # Setting env variables
 . /scripts/configClient.sh peer0
-cd /artifacts/
+cd /hlf-artifacts/
 
 # Creating the channel
 export CHANNEL_ID=mychannel
