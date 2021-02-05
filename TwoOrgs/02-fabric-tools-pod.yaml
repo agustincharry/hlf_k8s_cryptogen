@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fabric-tools
+  labels:
+    run: fabric-tools
+spec:
+  volumes:
+  - name: crypto-config
+    configMap:
+      name: crypto-config
+      items:
+      - key: "crypto-config.yaml"
+        path: "crypto-config.yaml"
+  - name: configtx
+    configMap:
+      name: configtx
+      items:
+      - key: "configtx.yaml"
+        path: "configtx.yaml"
+  - name: scripts
+    configMap:
+      name: scripts
+      items:
+      - key: "configClient.sh"
+        path: "configClient.sh"
+  
+  - name: hlf-artifacts
+    persistentVolumeClaim:
+      claimName: hlf-artifacts-pvc
+
+  containers:
+  - name: pod
+    image: hyperledger/fabric-tools:2.3
+    command: ['sh', '-c']
+    args:
+    - rm -r -f /hlf-artifacts/*;
+      mkdir /data &&
+      cp /configtx/configtx.yaml /data &&
+      cryptogen generate --config=/crypto-config/crypto-config.yaml --output=/data/crypto-config &&
+      cp -r /data/crypto-config/ /hlf-artifacts/certs/ &&      
+      cd /data &&
+      configtxgen -profile TwoOrgsOrdererGenesis -channelID sys-channel -outputBlock /hlf-artifacts/genesis.block -configPath=/data &&
+      configtxgen -profile TwoOrgsChannel -channelID mychannel -outputCreateChannelTx /hlf-artifacts/channel.tx -configPath=/data &&
+      sleep infinity
+    env:
+    - name: TZ
+      value: "America/Bogota"
+
+    volumeMounts:
+    - name: crypto-config
+      mountPath: "/crypto-config"
+    - name: configtx
+      mountPath: "/configtx"
+    - name: scripts
+      mountPath: "/scripts"
+
+    - name: hlf-artifacts
+      mountPath: "/hlf-artifacts"
