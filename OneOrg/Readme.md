@@ -33,7 +33,7 @@ kubectl exec -it fabric-tools -- /bin/sh
 ## On the fabric-tools shell
 ```bash
 # Setting env variables
-. /scripts/configClient.sh peer0
+. /scripts/configClient.sh org0-peer0
 cd /hlf-artifacts/
 
 # Creating the channel
