@@ -332,7 +332,7 @@ data:
         # to match the name of one of the MSPs in each of the channel
         # that this peer is a member of. Otherwise this peer's messages
         # will not be identified as valid by other nodes.
-        localMspId: ExampleOrg
+        localMspId: Org0
 
         # CLI common client config options
         client:

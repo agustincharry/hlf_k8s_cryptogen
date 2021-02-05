@@ -8,13 +8,13 @@ spec:
   volumes:
   - name: crypto-config
     configMap:
-      name: fabric-config
+      name: crypto-config
       items:
       - key: "crypto-config.yaml"
         path: "crypto-config.yaml"
   - name: configtx
     configMap:
-      name: fabric-config
+      name: configtx
       items:
       - key: "configtx.yaml"
         path: "configtx.yaml"

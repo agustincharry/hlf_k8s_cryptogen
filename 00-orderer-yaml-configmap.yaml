@@ -100,7 +100,7 @@ data:
         # ID of one of the organizations defined in the orderer system channel's
         # /Channel/Orderer configuration. The sample organization defined in the
         # sample configuration provided has an MSP ID of "SampleOrg".
-        LocalMSPID: ExampleOrg
+        LocalMSPID: Org0
 
         # Enable an HTTP service for Go "pprof" profiling as documented at:
         # https://golang.org/pkg/net/http/pprof
