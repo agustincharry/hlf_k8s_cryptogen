@@ -83,6 +83,8 @@ spec:
           value: "America/Bogota"
         - name: CORE_PEER_ID
           value: "org0-peer1"
+        - name: CORE_PEER_LOCALMSPID
+          value: "Org0"
         - name: CORE_NETWORKID
           value: "dev"
         - name: CORE_PEER_GOSSIP_BOOTSTRAP
