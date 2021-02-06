@@ -65,5 +65,5 @@ peer chaincode query -C $CHANNEL_ID -n basic -c '{"Args":["GetAllAssets"]}'
 
 ## Delete all
 ```bash
-kubectl delete -f .
+kubectl delete -f TwoOrgs
 ```

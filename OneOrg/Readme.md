@@ -5,7 +5,7 @@ This project provides a Hyperledger Fabric environment to test and develop witho
 ```bash
 git clone https://github.com/agustincharry/hlf_k8s_cryptogen.git
 cd hlf_k8s_cryptogen
-kubectl apply -f .
+kubectl apply -f OneOrg
 ```
 
 ## Validate the status of pods. -> Desired state: Running
@@ -65,5 +65,5 @@ peer chaincode query -C $CHANNEL_ID -n basic -c '{"Args":["GetAllAssets"]}'
 
 ## Delete all
 ```bash
-kubectl delete -f .
+kubectl delete -f OneOrg
 ```
