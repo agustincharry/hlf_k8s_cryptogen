@@ -55,11 +55,11 @@ peer lifecycle chaincode approveformyorg -o $ORDERER_ADDRESS --channelID $CHANNE
 peer lifecycle chaincode checkcommitreadiness --channelID $CHANNEL_ID --name basic --version $CC_VERSION --sequence $CC_SEQUENCE --tls --cafile $ORDERER_CA --output json
 
 # Commiting Chaincode
-peer lifecycle chaincode commit -o $ORDERER_ADDRESS --channelID $CHANNEL_ID --name basic --version $CC_VERSION --sequence $CC_SEQUENCE --tls --cafile $ORDERER_CA --peerAddresses $CORE_PEER_ADDRESS_ORG0 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG0 --certfile $CORE_PEER_TLS_CLIENTCERT_FILE --clientauth --keyfile $CORE_PEER_TLS_CLIENTKEY_FILE --peerAddresses $CORE_PEER_ADDRESS_ORG1 --tlsRootCertFiles CORE_PEER_TLS_ROOTCERT_FILE_ORG1
+peer lifecycle chaincode commit -o $ORDERER_ADDRESS --channelID $CHANNEL_ID --name basic --version $CC_VERSION --sequence $CC_SEQUENCE --tls --cafile $ORDERER_CA --certfile $CORE_PEER_TLS_CLIENTCERT_FILE --clientauth --keyfile $CORE_PEER_TLS_CLIENTKEY_FILE --peerAddresses $CORE_PEER_ADDRESS_ORG0 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG0 --peerAddresses $CORE_PEER_ADDRESS_ORG1 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG1
 peer lifecycle chaincode querycommitted --channelID $CHANNEL_ID --name basic --cafile $ORDERER_CA
 
 # Invoking Chaincode
-peer chaincode invoke -o $ORDERER_ADDRESS --tls --cafile $ORDERER_CA -C $CHANNEL_ID -n basic --peerAddresses $CORE_PEER_ADDRESS_ORG0 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG0 -c '{"function":"InitLedger","Args":[]}' --certfile $CORE_PEER_TLS_CLIENTCERT_FILE --clientauth --keyfile $CORE_PEER_TLS_CLIENTKEY_FILE --peerAddresses $CORE_PEER_ADDRESS_ORG1 --tlsRootCertFiles CORE_PEER_TLS_ROOTCERT_FILE_ORG1
+peer chaincode invoke -o $ORDERER_ADDRESS --tls --cafile $ORDERER_CA -C $CHANNEL_ID -n basic -c '{"function":"InitLedger","Args":[]}' --certfile $CORE_PEER_TLS_CLIENTCERT_FILE --clientauth --keyfile $CORE_PEER_TLS_CLIENTKEY_FILE --peerAddresses $CORE_PEER_ADDRESS_ORG0 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG0 --peerAddresses $CORE_PEER_ADDRESS_ORG1 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG1
 peer chaincode query -C $CHANNEL_ID -n basic -c '{"Args":["GetAllAssets"]}'
 ```
 
