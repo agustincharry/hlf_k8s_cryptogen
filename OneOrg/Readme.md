@@ -22,7 +22,7 @@ cd ..
 
 ## Copy chaincode to fabric-tools Pod
 ```bash
-kubectl cp chaincode-go fabric-tools:/
+kubectl cp chaincode-go fabric-tools:/chaincode
 ```
 
 ## Get a shell of fabric-tools
@@ -31,6 +31,19 @@ kubectl exec -it fabric-tools -- /bin/sh
 ```
 
 ## On the fabric-tools shell
+Select only one installation mode: manual or automatic installation
+### Automatic installation
+```bash
+# Installing Chaincode
+. /scripts/configClient.sh org0-peer0
+. /scripts/runChaincode.sh
+
+# Invoking Chaincode
+peer chaincode invoke -o $ORDERER_ADDRESS --tls --cafile $ORDERER_CA -C $CHANNEL_ID -n basic --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE -c '{"function":"InitLedger","Args":[]}' --certfile $CORE_PEER_TLS_CLIENTCERT_FILE --clientauth --keyfile $CORE_PEER_TLS_CLIENTKEY_FILE
+peer chaincode query -C $CHANNEL_ID -n basic -c '{"Args":["GetAllAssets"]}'
+```
+
+### Manual installation
 ```bash
 # Setting env variables
 . /scripts/configClient.sh org0-peer0
@@ -45,7 +58,7 @@ peer channel list
 # Installing Chaincode
 export CC_VERSION=1.0
 export CC_SEQUENCE=1
-peer lifecycle chaincode package basic_$CC_VERSION.tar.gz --path /chaincode-go --lang golang --label basic_$CC_VERSION
+peer lifecycle chaincode package basic_$CC_VERSION.tar.gz --path /chaincode --lang golang --label basic_$CC_VERSION
 peer lifecycle chaincode install basic_$CC_VERSION.tar.gz
 peer lifecycle chaincode queryinstalled
 

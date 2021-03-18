@@ -24,6 +24,8 @@ spec:
       items:
       - key: "configClient.sh"
         path: "configClient.sh"
+      - key: "runChaincode.sh"
+        path: "runChaincode.sh"
   
   - name: hlf-artifacts
     persistentVolumeClaim:
