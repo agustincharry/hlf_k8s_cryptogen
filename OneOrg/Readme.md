@@ -39,6 +39,7 @@ Select only one installation mode: manual or automatic installation
 . /scripts/runChaincode.sh
 
 # Invoking Chaincode
+export CHANNEL_ID=mychannel
 peer chaincode invoke -o $ORDERER_ADDRESS --tls --cafile $ORDERER_CA -C $CHANNEL_ID -n basic --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE -c '{"function":"InitLedger","Args":[]}' --certfile $CORE_PEER_TLS_CLIENTCERT_FILE --clientauth --keyfile $CORE_PEER_TLS_CLIENTKEY_FILE
 peer chaincode query -C $CHANNEL_ID -n basic -c '{"Args":["GetAllAssets"]}'
 ```
