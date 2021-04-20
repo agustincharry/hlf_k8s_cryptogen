@@ -17,6 +17,11 @@ spec:
     port: 9443
     targetPort: 9443
     nodePort: 30201
+  - name: couchdb
+    protocol: TCP
+    port: 5984
+    targetPort: 5984
+    nodePort: 30284
 
 ---
 
